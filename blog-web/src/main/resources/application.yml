@@ -1,0 +1,16 @@
+server:
+  port: 81
+
+#spring:
+#  mvc:
+#    view:
+#      prefix: /
+#      suffix: .html
+
+spring:
+  web:
+    resources:
+      add-mappings: true
+      static-locations: classpath:/
+  mvc:
+    static-path-pattern: /**

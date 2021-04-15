@@ -29,7 +29,7 @@ body {
 }
 
 header .navbar-brand {
-	background: url('https://gitee.com/veal98/images/raw/master/img/greateCommunityLogo.png') no-repeat;
+	background: url('https://raw.githubusercontent.com/451311677/vblog/master/blog-web/src/main/resources/static/echo/img/logo.png') no-repeat;
 	background-size: 147px 42px;
 	width: 147px;
 	height: 42px;

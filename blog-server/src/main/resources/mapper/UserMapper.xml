@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xaut.blog.dao.UserDao">
+
+    <!-- User getUserByAdmin(String admin); -->
+    <select id="getUserByAdmin" resultType="com.xaut.blog.entity.User">
+        SELECT *
+        FROM blog_user
+        WHERE admin = #{admin}
+    </select>
+
+    <!-- int insertUser(User user); -->
+    <insert id="insertUser" parameterType="com.xaut.blog.entity.User"
+            useGeneratedKeys="true" keyProperty="userId" keyColumn="user_id">
+        INSERT INTO blog_user(user_name, admin, password, email, gender,
+                              integral, label, status, create_time, last_edit_time)
+        values (#{userName}, #{admin}, #{password}, #{email}, #{gender},
+                #{integral}, #{label}, #{status}, #{createTime}, #{lastEditTime})
+    </insert>
+
+    <!-- int updateUser(User user); -->
+    <update id="updateUser" parameterType="com.xaut.blog.entity.User" keyProperty="user_id" useGeneratedKeys="true">
+        UPDATE blog_user
+        <set>
+            <if test="userName != null">user_name=#{userName},</if>
+            <if test="admin != null">admin=#{admin},</if>
+            <if test="password != null">password=#{password},</if>
+            <if test="email != null">email=#{email},</if>
+            <if test="gender != null">gender=#{gender},</if>
+            <if test="integral != null">integral=#{integral},</if>
+            <if test="label != null">label=#{label},</if>
+            <if test="status != null">status=#{status},</if>
+            <if test="createTime !=null ">create_time=#{createTime},</if>
+            <if test="lastEditTime != null" > last_edit_time = #{lastEditTime}</if>
+        </set>
+        WHERE user_id = #{userId}
+    </update>
+
+
+</mapper>

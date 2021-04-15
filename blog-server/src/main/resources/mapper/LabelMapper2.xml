@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xaut.blog.dao.LabelDao">
+
+    <!--int insertLabel(Label label);-->
+    <insert id="insertLabel" parameterType="string" useGeneratedKeys="true"
+            keyColumn="label_id">
+        INSERT INTO blog_label(
+            text
+        )
+        VALUES (
+                   #{text}
+               )
+    </insert>
+
+    <!--Label getLabelById(Long labelId);-->
+    <select id="getLabelById" parameterType="long" resultType="com.xaut.blog.entity.Label">
+        SELECT *
+        FROM blog_label
+        WHERE label_id = #{labelId}
+    </select>
+
+
+    <!--Label getLabelByText(String text);-->
+    <select id="getLabelByText" resultType="com.xaut.blog.entity.Label" parameterType="string">
+        SELECT *
+        FROM blog_label
+        WHERE text = #{text}
+    </select>
+
+    <!--List<Label> getLabelListById(List<Long> labelList);-->
+    <select id="getLabelListById" parameterType="java.util.List" resultType="com.xaut.blog.entity.Label">
+        SELECT *
+        FROM blog_label
+        WHERE label_id IN
+        <foreach collection="labelList"  item="key" open="(" close=")" separator=",">
+            #{key}
+        </foreach>
+    </select>
+
+
+    <!--List<Label> getLabelListByText(List<String> labelList);-->
+    <select id="getLabelListByText" parameterType="java.util.List" resultType="com.xaut.blog.entity.Label">
+        SELECT *
+        FROM blog_label
+        WHERE text IN
+        <foreach collection="list"  item="labelList" open="(" close=")" separator=",">
+            #{labelList}
+        </foreach>
+    </select>
+
+
+</mapper>

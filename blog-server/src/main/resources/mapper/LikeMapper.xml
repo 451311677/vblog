@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xaut.blog.dao.LikeDao">
+
+    <!--int insert(Like like);-->
+    <insert id="insert" parameterType="com.xaut.blog.entity.Like" useGeneratedKeys="true" keyProperty="likeId"
+            keyColumn="like_id">
+        INSERT INTO blog_like(owner_user_id, owner_article_id)
+        VALUES (#{ownerUserId}, #{ownerArticleId})
+    </insert>
+
+    <!--int delete(Long likeId);-->
+    <delete id="delete" parameterType="long">
+        DELETE
+        FROM blog_like
+        WHERE like_id = #{likeId}
+    </delete>
+
+
+    <!--List<Like> getLikeListByArticle(Long ownerArticleId);-->
+    <select id="getLikeListByArticle" parameterType="long" resultType="com.xaut.blog.entity.Like">
+        SELECT *
+        FROM blog_like
+        WHERE owner_article_id = #{ownerArticleId}
+    </select>
+
+    <!--Like getLikeByUserId(Long ownerArticleId,Long ownerUserId);-->
+    <select id="getLikeByUserId" resultType="com.xaut.blog.entity.Like">
+        SELECT *
+        FROM blog_like
+        WHERE owner_article_id = #{ownerArticleId}
+          AND owner_user_id = #{ownerUserId}
+    </select>
+
+</mapper>

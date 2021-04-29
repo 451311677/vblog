@@ -93,5 +93,69 @@ public class LoginController {
         return "/view/admin/register";
     }
 
+    @PostMapping("/forget")
+    public String forget(HttpServletRequest request,Model model){
+        //邮箱
+        String email = request.getParameter("email");
+        String captcha = request.getParameter("captcha");
+        String password = request.getParameter("password");
+        model.addAttribute("email",email);
+        model.addAttribute("captcha",captcha);
+        model.addAttribute("password",password);
+
+        //验证码
+        if(captcha==null|| captcha.length()==0){
+            model.addAttribute("captchaMsg","请输入验证码");
+            return "view/admin/forget";
+        }
+        //新密码
+        if(password==null||password.length()<6){
+            model.addAttribute("passwordMsg","密码长度需大于6");
+            return "view/admin/forget";
+        }
+
+        CommonResult<User> result = restTemplate.exchange(BLOG_SERVER_URL+"/updatepassword?email="+email+"&captcha="+captcha+"&password="+password,HttpMethod.GET, null, new ParameterizedTypeReference<CommonResult<User>>() {
+        }).getBody();
+        if(result!=null){
+            log.info(String.valueOf(result));
+            if(result.getCode()==200){
+                //密码更新成功
+                model.addAttribute("success",true);
+            }else{
+                if ("验证码不正确".equals(result.getMessage())){
+                    //验证码不正确
+                    model.addAttribute("captchaMsg","验证码不正确");
+                }else if("邮箱未注册".equals(result.getMessage())){
+                    //邮箱未注册
+                    model.addAttribute("emailMsg","邮箱未注册");
+                }else if("密码重置失败".equals(result.getMessage())){
+                    //密码重置失败
+                    model.addAttribute("passwordMsg","密码重置失败，请稍后再试");
+                }
+            }
+        }
+
+        return "view/admin/forget";
+    }
+
+    @GetMapping("/quit")
+    public String quit(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        session.removeAttribute("loginUser");
+
+        CommonResult<User> result = restTemplate.exchange(BLOG_SERVER_URL+"/quit",HttpMethod.GET, null, new ParameterizedTypeReference<CommonResult<User>>() {
+        }).getBody();
+        if(result!=null){
+            if(result.getCode()==200){
+                //退出成功
+                return "view/index";
+            }
+        }
+        return "view/index";
+
+    }
+
+
+
 
 }

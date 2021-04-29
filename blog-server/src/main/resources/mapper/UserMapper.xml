@@ -11,6 +11,28 @@
         WHERE admin = #{admin}
     </select>
 
+    <!-- User getUserByName(String userName); -->
+    <select id="getUserByName" resultType="com.xaut.blog.entity.User">
+        SELECT *
+        FROM blog_user
+        WHERE user_name = #{userName}
+    </select>
+
+    <!-- User getUserByEmail(String email); -->
+    <select id="getUserByEmail" resultType="com.xaut.blog.entity.User">
+        SELECT *
+        FROM blog_user
+        WHERE email = #{email}
+    </select>
+
+    <!--User getUserById(Long userId);-->
+    <select id="getUserById" parameterType="long" resultType="com.xaut.blog.entity.User">
+        SELECT *
+        FROM blog_user
+        WHERE user_id = #{userId}
+    </select>
+
+
     <!-- int insertUser(User user); -->
     <insert id="insertUser" parameterType="com.xaut.blog.entity.User"
             useGeneratedKeys="true" keyProperty="userId" keyColumn="user_id">
@@ -33,7 +55,7 @@
             <if test="label != null">label=#{label},</if>
             <if test="status != null">status=#{status},</if>
             <if test="createTime !=null ">create_time=#{createTime},</if>
-            <if test="lastEditTime != null" > last_edit_time = #{lastEditTime}</if>
+            <if test="lastEditTime != null">last_edit_time = #{lastEditTime}</if>
         </set>
         WHERE user_id = #{userId}
     </update>

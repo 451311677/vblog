@@ -44,4 +44,10 @@ public class CommentService {
     public List<Comment> getCommentList(Long ownerArticleId){
         return commentDao.getCommentList(ownerArticleId);
     }
+
+
+
+    public int count(Long ownerArticleId){
+        return commentDao.count(ownerArticleId);
+    }
 }

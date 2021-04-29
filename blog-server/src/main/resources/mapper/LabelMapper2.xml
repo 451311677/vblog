@@ -51,5 +51,10 @@
         </foreach>
     </select>
 
+    <!--List<Label> getLabelInit(Integer num);-->
+    <select id="getLabelInit" resultType="com.xaut.blog.entity.Label">
+        SELECT * FROM blog_label
+        WHERE label_id  &lt;= #{num}
+    </select>
 
 </mapper>

@@ -1,5 +1,6 @@
 package com.xaut.blog.controller;
 
+import com.xaut.blog.entity.CommonResult;
 import com.xaut.blog.entity.Label;
 import com.xaut.blog.service.LabelService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,10 +23,14 @@ public class LabelController {
     @Autowired
     private LabelService labelService;
 
-    @GetMapping("/init")
-    public String getLebelInit(){
-
-        return "init";
+    @GetMapping("/init/{num}")
+    public CommonResult<List<Label>> getLebelInit(@PathVariable("num") Integer num){
+        List<Label> list = labelService.getLabelInit(num);
+        System.out.println(list);
+        if(list!=null&&list.size()>0){
+            return new CommonResult<List<Label>>(200,"查询成功",list);
+        }
+        return new CommonResult<List<Label>>(400,"查询失败");
     }
 
     @GetMapping("/get/{id}")

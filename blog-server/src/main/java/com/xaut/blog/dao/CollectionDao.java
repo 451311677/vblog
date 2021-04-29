@@ -40,4 +40,11 @@ public interface CollectionDao {
      * @return
      */
     int getCountByUser(Long ownerUserId);
+
+    /**
+     * 文章被收藏数量
+     * @param ownerArticleId
+     * @return
+     */
+    int count(Long ownerArticleId);
 }

@@ -20,7 +20,7 @@ public class LabelService {
 
     /**
      * 添加标签
-     * @param label
+     * @param text
      * @return
      */
     public int insertLabel(String text){
@@ -61,6 +61,15 @@ public class LabelService {
      */
     public List<Label> getLabelListByText(List<String> labelList){
         return labelDao.getLabelListByText(labelList);
+    }
+
+    /**
+     * 查询初始标签
+     * @param num
+     * @return
+     */
+    public List<Label> getLabelInit(Integer num){
+        return labelDao.getLabelInit(num);
     }
 
 }

@@ -38,7 +38,7 @@ CodeMirror.defineMode("asterisk", function() {
                   "congestion","continuewhile","controlplayback","dahdiacceptr2call","dahdibarge",
                   "dahdiras","dahdiscan","dahdisendcallreroutingfacility","dahdisendkeypadfacility",
                   "datetime","dbdel","dbdeltree","deadagi","dial","dictate","directory","disa",
-                  "dumpchan","eagi","echo","endwhile","exec","execif","execiftime","exitwhile","extenspy",
+                  "dumpchan","eagi","blog","endwhile","exec","execif","execiftime","exitwhile","extenspy",
                   "externalivr","festival","flash","followme","forkcdr","getcpeid","gosub","gosubif",
                   "goto","gotoif","gotoiftime","hangup","iax2provision","ices","importvar","incomplete",
                   "ivrdemo","jabberjoin","jabberleave","jabbersend","jabbersendgroup","jabberstatus",

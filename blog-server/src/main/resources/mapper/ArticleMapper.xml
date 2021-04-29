@@ -56,12 +56,27 @@
         SELECT * FROM blog_article
         WHERE 1 = 1
         <if test="articleIdList != null">
-            <foreach collection="articleIdList" item="key" open="AND (" close=")" separator="or" >
+            <foreach collection="articleIdList" item="key" open="AND (" close=")" separator="or">
                 label like '%${key}%'
             </foreach>
 
         </if>
 
+    </select>
+
+    <!--int userCount(Long userId)-->
+    <select id="userCount" resultType="integer" parameterType="long">
+        SELECT COUNT(article_id)
+        FROM blog_article
+        WHERE owner_user_id = #{userId}
+    </select>
+
+
+    <!--int pageViewCount(Long userId);-->
+    <select id="pageViewCount" parameterType="long" resultType="integer">
+        SELECT SUM(page_view)
+        FROM blog_article
+        WHERE owner_user_id = #{userId}
     </select>
 
 </mapper>

@@ -195,3 +195,15 @@ em {
 	font-style: normal;
 	color: red;
 }
+
+.forget-tip{
+	font-style: normal;
+	color: red;
+}
+
+.update-password{
+	/*font-style: normal;*/
+	font-weight: bold;
+	font-size: large;
+	color: #00c4ff;
+}

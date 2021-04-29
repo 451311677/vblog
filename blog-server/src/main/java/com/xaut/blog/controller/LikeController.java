@@ -1,5 +1,7 @@
 package com.xaut.blog.controller;
 
+import com.xaut.blog.dao.LikeDao;
+import com.xaut.blog.service.LikeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,4 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("like")
 @Slf4j
 public class LikeController {
+
+    private LikeService likeService;
+
 }

@@ -54,4 +54,8 @@ public class LikeService {
     public Like getLikeByUserId(Long ownerArticleId,Long ownerUserId){
         return likeDao.getLikeByUserId(ownerArticleId,ownerUserId);
     }
+
+    public int count(Long ownerArticleId){
+        return likeDao.count(ownerArticleId);
+    }
 }

@@ -41,4 +41,12 @@ public interface LikeDao {
      * @return
      */
     Like getLikeByUserId(Long ownerArticleId,Long ownerUserId);
+
+    /**
+     * 查询文章点赞数
+     * @param ownerArticleId
+     * @return
+     */
+    int count(Long ownerArticleId);
+
 }

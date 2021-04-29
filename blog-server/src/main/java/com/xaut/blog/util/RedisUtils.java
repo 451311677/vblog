@@ -1,11 +1,13 @@
 package com.xaut.blog.util;
 
 import ch.qos.logback.core.encoder.EchoEncoder;
+import com.mysql.cj.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author zxg
@@ -50,6 +52,16 @@ public class RedisUtils {
         boolean result = false;
         try {
             redisTemplate.opsForValue().getAndSet(key, value);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    public boolean setEx(final String key,String value,int time){
+        boolean result = false;
+        try {
+            redisTemplate.opsForValue().set(key,value,time,TimeUnit.MINUTES);
             result = true;
         } catch (Exception e) {
             e.printStackTrace();

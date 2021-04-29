@@ -34,4 +34,12 @@
         WHERE owner_user_id = #{ownerUserId}
     </select>
 
+    <!-- int count(Long ownerArticleId); -->
+    <select id="count" resultType="integer" parameterType="long">
+        SELECT count(collection_id)
+        FROM blog_collection
+        WHERE owner_article_id = #{ownerArticleId}
+
+    </select>
+
 </mapper>

@@ -34,4 +34,10 @@
           AND owner_user_id = #{ownerUserId}
     </select>
 
+    <!-- int count(Long ownerArticleId); -->
+    <select id="count" resultType="integer" parameterType="long">
+        SELECT count(like_id)
+        FROM blog_like
+        WHERE owner_article_id = #{ownerArticleId}
+    </select>
 </mapper>

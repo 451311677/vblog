@@ -67,37 +67,4 @@ public class WebController {
 //        return "/view/admin/login";
 //    }
 
-
-    @GetMapping("/publish")
-    public String publish(HttpServletRequest request,Model model){
-        HttpSession session = request.getSession();
-        User loginUser = (User) session.getAttribute("loginUser");
-        log.info("loginUser1: "+loginUser);
-        if(loginUser!=null){
-            model.addAttribute("loginUser",loginUser);
-            return  "/view/admin/publish";
-        }else{
-            //跳转login界面登路操作
-//            CommonResult<User> result = restTemplate.getForObject(BLOG_SERVER_URL + "/login", CommonResult.class);
-//            ResponseEntity<CommonResult> entity = restTemplate.getForEntity(BLOG_SERVER_URL + "/login", CommonResult.class);
-//            CommonResult<User> result = entity.getBody();
-            ResponseEntity<CommonResult<User>> entity = restTemplate.exchange(BLOG_SERVER_URL + "/login", HttpMethod.GET, null, new ParameterizedTypeReference<CommonResult<User>>() {
-            });
-            CommonResult<User> result = entity.getBody();
-
-            if(result!=null) {
-                loginUser = result.getData();
-                session.setAttribute("loginUser", loginUser);
-                log.info("loginUser: " + loginUser);
-                model.addAttribute("loginUser", loginUser);
-                return "/view/index";
-            }
-
-        }
-        return "/view/index";
-    }
-//    @GetMapping("/mymd")
-//    public String index2(){
-//        return "view/index";
-//    }
 }

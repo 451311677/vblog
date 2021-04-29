@@ -71,4 +71,23 @@ public class ArticleService {
     public List<Article> getByLabel(List<String> articleIdList){
         return articleDao.getByLabel(articleIdList);
     }
+
+
+    /**
+     * 查询用户文章数量
+     * @param userId
+     * @return
+     */
+    public int userCount(Long userId){
+        return articleDao.userCount(userId);
+    }
+
+    /**
+     * 查询用户文章访问量
+     * @param userId
+     * @return
+     */
+    public int pageViewCount(Long userId){
+        return articleDao.pageViewCount(userId);
+    }
 }

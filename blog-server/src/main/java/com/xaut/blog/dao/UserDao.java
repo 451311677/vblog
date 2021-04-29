@@ -34,4 +34,25 @@ public interface UserDao {
      * @return
      */
     User getUserByAdmin(String admin);
+
+    /**
+     * 根据昵称查询用户
+     * @param userName
+     * @return
+     */
+    User getUserByName(String userName);
+
+    /**
+     * 根据邮箱查询用户
+     * @param email
+     * @return
+     */
+    User getUserByEmail(String email);
+
+    /**
+     * 通过id查询用户
+     * @param userId
+     * @return
+     */
+    User getUserById(Long userId);
 }

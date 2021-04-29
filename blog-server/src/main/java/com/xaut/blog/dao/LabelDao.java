@@ -15,7 +15,7 @@ public interface LabelDao {
 
     /**
      * 添加标签
-     * @param label
+     * @param text
      * @return
      */
     int insertLabel(String text);
@@ -47,4 +47,12 @@ public interface LabelDao {
      * @return
      */
     List<Label> getLabelListByText(List<String> labelList);
+
+
+    /**
+     * 查询初始标签
+     * @param num
+     * @return
+     */
+    List<Label> getLabelInit(Integer num);
 }

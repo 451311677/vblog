@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" type="shortcut icon" th:href="@{/static/blog/img/favicon.ico}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/static/blog/css/bootstrap.min.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/static/blog/css/global.css}" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+	<title>VBLOG - 忘记密码</title>
+</head>
+<body>
+	<div class="nk-container">
+
+		<!-- 头部 -->
+		<header class="bg-dark sticky-top" th:replace="/view/index::header"></header>
+
+		<!-- 内容 -->
+		<div class="main">
+			<div class="container pl-5 pr-5 pt-3 pb-3 mt-3 mb-3">
+				<form method="post" action="/forget" class="mt-5">
+					<div class="form-group row">
+						<label for="email" class="col-sm-2 col-form-label text-right">邮箱:</label>
+						<div class="col-sm-10">
+							<input type="email" class="form-control" name="email" id="email" th:value="${email}" placeholder="请输入您的邮箱!" required>
+							<div class="forget-tip"  th:text="${emailMsg}"></div>
+						</div>
+					</div>
+					<div class="form-group row mt-4">
+						<label for="captcha" class="col-sm-2 col-form-label text-right">验证码:</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" name="captcha" id="captcha" th:value="${captcha}" placeholder="请输入验证码!">
+							<div class="forget-tip" th:text="${captchaMsg}"></div>
+						</div>
+						<div class="col-sm-4 getcaptcha" >
+							<a href="javascript:;" class="btn btn-info form-control">获取验证码</a>
+						</div>
+					</div>
+					<div class="form-group row mt-4">
+						<label for="password" class="col-sm-2 col-form-label text-right">新密码:</label>
+						<div class="col-sm-10">
+							<input type="password" class="form-control" name="password" id="password" th:value="${password}" placeholder="请输入新的密码!" required>
+							<div class="forget-tip" th:text="${passwordMsg}"></div>
+						</div>
+					</div>
+					<div class="form-group row mt-4">
+						<div class="col-sm-2" ></div>
+						<div class="col-sm-10 text-center">
+							<button type="submit" class="btn btn-info text-white form-control">重置密码</button>
+						</div>
+					</div>
+					<div class="form-group row mt-4" th:if="${success}">
+						<div class="col-sm-2" ></div>
+						<div class="col-sm-10 text-center">
+							<a type="button" class="update-password" th:href="@{/login}">密码已修改，点击返回登录</a>
+						</div>
+					</div>
+				</form>				
+			</div>
+		</div>
+
+		<!-- 尾部 -->
+		<footer class="bg-dark" th:replace="/view/index::footer"></footer>
+
+	</div>
+
+	<script th:src="@{/static/blog/js/jquery-3.1.0.min.js}"></script>
+	<script th:src="@{/static/blog/js/popper.min.js}"></script>
+	<script th:src="@{/static/blog/js/bootstrap.min.js}"></script>
+	<script th:src="@{/static/blog/js/forget.js}"></script>
+</body>
+</html>

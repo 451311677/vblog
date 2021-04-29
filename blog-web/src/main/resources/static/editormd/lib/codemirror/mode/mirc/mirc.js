@@ -62,7 +62,7 @@ CodeMirror.defineMode("mirc", function() {
                             "comreg continue copy creq ctcpreply ctcps dcc dccserver dde ddeserver " +
                             "debug dec describe dialog did didtok disable disconnect dlevel dline dll " +
                             "dns dqwindow drawcopy drawdot drawfill drawline drawpic drawrect drawreplace " +
-                            "drawrot drawsave drawscroll drawtext ebeeps echo editbox emailaddr enable " +
+                            "drawrot drawsave drawscroll drawtext ebeeps blog editbox emailaddr enable " +
                             "events exit fclose filter findtext finger firewall flash flist flood flush " +
                             "flushini font fopen fseek fsend fserve fullname fwrite ghide gload gmove " +
                             "gopts goto gplay gpoint gqreq groups gshow gsize gstop gtalk gunload hadd " +

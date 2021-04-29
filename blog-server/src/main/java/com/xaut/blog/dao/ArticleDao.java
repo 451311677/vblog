@@ -54,5 +54,19 @@ public interface ArticleDao {
      * @return
      */
     List<Article> getByLabel(List<String> articleIdList);
+
+    /**
+     * 查询用户文章数量
+     * @param userId
+     * @return
+     */
+    int userCount(Long userId);
+
+    /**
+     * 查询用户文章访问量
+     * @param userId
+     * @return
+     */
+    int pageViewCount(Long userId);
 }
 

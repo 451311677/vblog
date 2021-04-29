@@ -54,4 +54,13 @@ public class CollectionService {
         return collectionDao.getCountByUser(ownerUserId);
     }
 
+    /**
+     * 获取文章收藏数
+     * @param ownerArticleId
+     * @return
+     */
+    public int count(Long ownerArticleId){
+        return collectionDao.count(ownerArticleId);
+    }
+
 }

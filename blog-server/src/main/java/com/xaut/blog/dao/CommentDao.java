@@ -33,4 +33,11 @@ public interface CommentDao {
      * @return
      */
     List<Comment> getCommentList(Long ownerArticleId);
+
+    /**
+     * 查询文章评论数
+     * @param ownerArticleId
+     * @return
+     */
+    int count(Long ownerArticleId);
 }

@@ -20,4 +20,10 @@ public class Like {
      * 类别，1 文章点赞，2 动态点赞
      */
 //    private Integer category;
+
+
+    public Like(Long ownerUserId, Long ownerArticleId) {
+        this.ownerUserId = ownerUserId;
+        this.ownerArticleId = ownerArticleId;
+    }
 }

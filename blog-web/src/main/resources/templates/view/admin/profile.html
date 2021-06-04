@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="shortcut icon" th:href="@{/static/blog/img/favicon.ico}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/blog/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/blog/css/global.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/blog/css/index.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/blog/css/profile.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/layui/css/layui.css}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+    <title>Echo - 个人主页</title>
+</head>
+<body>
+<div class="nk-container">
+    <!-- 头部 -->
+    <header class="bg-dark sticky-top" th:replace="view/index::header"></header>
+
+    <!-- 内容 -->
+    <div class="main">
+        <div class="container">
+            <!-- 选项 -->
+            <div class="position-relative">
+                <ul class="nav nav-tabs" th:fragment="profiletab">
+                    <li class="nav-item">
+                        <a th:class="|nav-link ${tab=='profile' ? 'active' : ''}|"
+                           th:href="@{|/user/profile/${user.admin}|}">个人信息</a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:class="|nav-link ${tab=='mypost' ? 'active' : ''}|"
+                           th:href="@{|/user/article/${user.admin}|}"><span
+                                th:if="${loginUser==null || (loginUser.userId!=user.userId)}">他</span><span
+                                th:if="${loginUser!=null && loginUser.userId==user.userId}">我</span>的帖子</a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:class="|nav-link ${tab=='collection' ? 'active' : ''}|"
+                           th:href="@{|/user/collection/${user.admin}|}"><span
+                                th:if="${loginUser==null || (loginUser.userId!=user.userId)}">他</span><span
+                                th:if="${loginUser!=null && loginUser.userId==user.userId}">我</span>的收藏</a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:class="|nav-link ${tab=='care' ? 'active' : ''}|"
+                           th:href="@{|/user/care/${user.admin}|}"><span
+                                th:if="${loginUser==null || (loginUser.userId!=user.userId)}">他</span><span
+                                th:if="${loginUser!=null && loginUser.userId==user.userId}">我</span>的关注</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- 个人信息 -->
+            <div th:if="${tab=='profile'}" class="media mt-5">
+                <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2496571732,442429806&fm=26&gp=0.jpg"
+                     class="align-self-start mr-4 rounded-circle" alt="用户头像" style="width:50px;height:50px;">
+                <div class="media-body">
+                    <!--						<h5 class="mt-0 text-warning">-->
+                    <!--							<span th:utext="${loginUser.userName}"></span>-->
+                    <!--							<input type="hidden" id="entityId" th:value="${loginUser.admin}">-->
+                    <!--							<button type="button" th:class="|btn ${hasFollowed ? 'btn-secondary' : 'btn-info'} btn-sm float-right mr-5 follow-btn|"-->
+                    <!--									th:text="${hasFollowed ? '已关注' : '关注TA'}"-->
+                    <!--									th:if="${loginUser!=null && loginUser.userId!=loginUser.userId}"></button>-->
+                    <!--						</h5>-->
+                    <div class="text-muted mt-3">
+                        <span th:text="${user.userName}" style="font-size: 22px;font-weight: bold;"></span>
+                        <span style="margin-left: 30px;">注册于 <i class="text-muted"
+                                                                th:text="${#dates.format(user.createTime, 'yyyy-MM-dd HH:mm:ss')}"></i></span>
+                    </div>
+                    <div class="text-muted mt-3 mb-5">
+                        <a class="text-primary" th:if="${loginUser==null ||loginUser.userId!=user.userId}"
+                           th:href="@{'#'}" style="margin-right: 6px">
+                            <button type="button" class="btn btn-secondary">
+                                博客 <span class="badge badge-info" th:text="${user.blogNumber}"></span> 篇
+                            </button>
+                        </a>
+                        <a class="text-primary" th:if="${loginUser!=null && loginUser.userId==user.userId}"
+                           th:href="@{|/followees/${user.userId}|}" style="margin-right: 6px">
+                            <button type="button" class="btn btn-secondary">
+                                博客 <span class="badge badge-info" th:text="${user.blogNumber}"></span> 篇
+                            </button>
+                        </a>
+
+                        <a class="text-primary" th:if="${loginUser==null ||loginUser.userId!=user.userId}"
+                           th:href="@{'#'}" style="margin-right: 6px">
+                            <button type="button" class="btn btn-secondary">
+                                关注了 <span class="badge badge-info" th:text="${user.care}"></span> 人
+                            </button>
+                        </a>
+                        <a class="text-primary" th:if="${loginUser!=null && loginUser.userId==user.userId}"
+                           th:href="@{|/followees/${user.userId}|}" style="margin-right: 6px">
+                            <button type="button" class="btn btn-secondary">
+                                关注了 <span class="badge badge-info" th:text="${user.care}"></span> 人
+                            </button>
+                        </a>
+
+                        <a class="text-primary" th:if="${loginUser==null ||loginUser.userId!=user.userId}"
+                           th:href="@{'#'}" style="margin-right: 6px">
+                            <button type="button" class="btn btn-secondary">
+                                粉丝 <span class="badge badge-info" th:text="${user.fans}"></span> 人
+                            </button>
+                        </a>
+                        <a class="text-primary" th:if="${loginUser!=null && loginUser.userId==user.userId}"
+                           th:href="@{|/followers/${user.userId}|}" style="margin-right: 6px">
+                            <button type="button" class="btn btn-secondary">
+                                粉丝 <span class="badge badge-info" th:text="${user.fans}"></span> 人
+                            </button>
+                        </a>
+
+                        <button type="button" class="btn btn-secondary">
+                            浏览量 <span class="badge badge-light" th:text="${user.view}"></span>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- 博客文章循环 -->
+            <div th:if="${tab=='mypost'}" class="article-content row" th:each="article,stat: ${articles}">
+                <div style="width:10%;border-radius:10px;background: #8abdd5;text-align: center;"> <span th:text="${stat.index}" class="article-index"></span>
+                </div>
+                <div style="width:80%;">
+                    <a th:href="@{'/article/detail/'+${article.articleId}}">
+
+                        <span th:text="${article.articleName}" class="article-title"></span>
+                        <div class="row" style="margin-left: 10px;">
+                            <div class="article-item">
+<!--                                <span th:text="${article.text.substring(0,30)}" class="article-desc"></span>-->
+                                <span th:text="${article.desc}" class="article-desc"></span>
+                            </div>
+                            <div style="margin-top: 5px;">
+                                <i class="fa fa-eye fa-lg eye"></i><span th:text="${article.pageView}"
+                                                                         class="eye-num"></span>
+                            </div>
+
+
+                        </div>
+                    </a>
+                </div>
+                <div style="margin-top:35px;" th:if="${loginUser!=null && (loginUser.userId==user.userId)}">
+                    <span th:text="删除" onclick="confirm('是否删除？')" class="delete"></span>
+                </div>
+            </div>
+
+            <!-- 博客文章循环 -->
+            <div th:if="${tab=='collection'}" class="article-content row" th:each="article,stat: ${articles}">
+                <div style="width:10%;border-radius:10px;background: #8abdd5;text-align: center;"> <span th:text="${stat.index}" class="article-index"></span>
+                </div>
+                <div style="width:80%;">
+                    <a th:href="@{'/article/detail/'+${article.articleId}}">
+
+                        <span th:text="${article.articleName}" class="article-title"></span>
+                        <div class="row" style="margin-left: 10px;">
+                            <div class="article-item">
+                                <!--                                <span th:text="${article.text.substring(0,30)}" class="article-desc"></span>-->
+                                <span th:text="${article.desc}" class="article-desc"></span>
+                            </div>
+                            <div style="margin-top: 5px;">
+                                <i class="fa fa-eye fa-lg eye"></i><span th:text="${article.pageView}"
+                                                                         class="eye-num"></span>
+                            </div>
+
+
+                        </div>
+                    </a>
+                </div>
+                <div style="margin-top:35px;" th:if="${loginUser!=null && (loginUser.userId==user.userId)}">
+                    <span th:text="取消收藏" onclick="confirm('是否取消收藏？')" class="delete"></span>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- 尾部 -->
+    <footer class="bg-dark" th:replace="view/index::footer"></footer>
+</div>
+
+<script th:src="@{/static/blog/js/jquery-3.1.0.min.js}"></script>
+<script th:src="@{/static/blog/js/popper.min.js}"></script>
+<script th:src="@{/static/blog/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/blog/js/global.js}"></script>
+<script th:src="@{/static/blog/js/profile.js}"></script>
+<script th:src="@{/static/layui/layui.js}"></script>
+<script>
+    layui.use('layer', function(){ //独立版的layer无需执行这一句
+        var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+
+        //触发事件
+        var active = {
+
+            confirmTrans: function(){
+                //配置一个透明的询问框
+                layer.msg('大部分参数都是可以公用的<br>合理搭配，展示不一样的风格', {
+                    time: 20000, //20s后自动关闭
+                    btn: ['明白了', '知道了', '哦']
+                });
+            }
+        };
+
+        $('#layerDemo .layui-btn').on('click', function(){
+            var othis = $(this), method = othis.data('method');
+            active[method] ? active[method].call(this, othis) : '';
+        });
+
+
+        //多窗口模式 - esc 键
+        $(document).on('keyup', function(e){
+            if(e.keyCode === 27){
+                layer.close(layer.escIndex ? layer.escIndex[0] : 0);
+            }
+        });
+    });
+</script>
+</body>
+</html>

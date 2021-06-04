@@ -23,6 +23,7 @@ public class Article {
     private Integer pageView;
     private String label;
     private String text;
+
     /**
      * 1.发布，2.草稿
      */
@@ -48,5 +49,18 @@ public class Article {
      * 评论数
      */
     private Integer commentNumber;
+
+    /**
+     * 作者
+     */
+    private User author;
+
+    /**
+     * 简单描述
+     */
+    private String desc;
+
+
+
 
 }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xaut.blog.dao.CollectionDao">
+
+    <resultMap id="ArticleMap" type="com.xaut.blog.entity.Article">
+        <id column="article_id" property="articleId"/>
+        <result column="article_name" property="articleName"/>
+        <result column="owner_user_id" property="ownerUserId"/>
+        <result column="page_view" property="pageView"/>
+        <result column="label" property="label"/>
+        <result column="text" property="text"/>
+        <result column="desc" property="desc"/>
+        <result column="state" property="state"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_edit_time" property="lastEditTime"/>
+        <association property="author" column="owner_user_id"
+                     javaType="com.xaut.blog.entity.User">
+            <id column="user_id" property="userId"/>
+            <result column="user_name" property="userName"/>
+            <result column="admin" property="admin"/>
+            <result column="gender" property="gender"/>
+            <result column="integral" property="integral"/>
+        </association>
+    </resultMap>
+
+    <!--int insert(Collection collection);-->
+    <insert id="insert" parameterType="com.xaut.blog.entity.Collection" useGeneratedKeys="true"
+            keyProperty="collectionId"
+            keyColumn="collection_id">
+        INSERT INTO blog_collection(owner_user_id, owner_article_id)
+        VALUES (#{ownerUserId}, #{ownerArticleId})
+    </insert>
+
+
+    <!--int delete(Long collectionId);-->
+    <delete id="delete" parameterType="long">
+        DELETE
+        FROM blog_collection
+        WHERE collection_id = #{collectionId}
+    </delete>
+
+    <!--int getCollectionList(Long ownerUserId);-->
+    <select id="getCollectionList" parameterType="long" resultType="com.xaut.blog.entity.Article">
+        SELECT *
+        FROM blog_collection bc
+                 LEFT JOIN blog_article ba on ba.article_id = bc.owner_article_id
+        WHERE bc.owner_user_id = #{ownerUserId}
+    </select>
+
+    <!-- int getCountByUser(Long ownerUserId); -->
+    <select id="getCountByUser" resultType="int" parameterType="long">
+        SELECT count(collection_id)
+        FROM blog_collection
+        WHERE owner_user_id = #{ownerUserId}
+    </select>
+
+    <!-- int count(Long ownerArticleId); -->
+    <select id="count" resultType="integer" parameterType="long">
+        SELECT count(collection_id)
+        FROM blog_collection
+        WHERE owner_article_id = #{ownerArticleId}
+
+    </select>
+
+    <!-- Collection isCollection(Long ownerUserId,Long ownerArticleId); -->
+    <select id="isCollection" resultType="com.xaut.blog.entity.Collection" parameterType="long">
+        SELECT *
+        FROM blog_collection
+        WHERE owner_user_id = #{param1}
+          AND owner_article_Id = #{param2}
+    </select>
+
+
+    <!-- int deleteById(Long ownerUserId,Long ownerArticleId); -->
+    <delete id="deleteById" parameterType="long">
+        DELETE
+        FROM blog_collection
+        WHERE owner_user_id = #{param1}
+          AND owner_article_id = #{param2}
+    </delete>
+
+</mapper>

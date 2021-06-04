@@ -207,3 +207,12 @@ em {
 	font-size: large;
 	color: #00c4ff;
 }
+
+.row{
+	display: flex;
+	flex-direction: row;
+}
+.column{
+	display: flex;
+	flex-direction: column;
+}

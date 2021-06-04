@@ -1,6 +1,7 @@
 package com.xaut.blog.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.xaut.blog.entity.Article;
 import com.xaut.blog.entity.CommonResult;
 import com.xaut.blog.entity.User;
 import com.xaut.blog.util.HttpUtils;
@@ -22,6 +23,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.net.URI;
+import java.util.List;
 
 /**
  * @author xiaogang.zhang
@@ -58,6 +60,18 @@ public class LoginController {
                 log.info(String.valueOf(result.getData()));
                 session.setAttribute("loginUser", (User) result.getData());
                 model.addAttribute("loginUser", result.getData());
+
+                //获取初始数据
+
+                CommonResult<List<Article>> result2 = restTemplate.exchange(BLOG_SERVER_URL + "/article/getbyname/Blog", HttpMethod.GET, null, new ParameterizedTypeReference<CommonResult<List<Article>>>() {
+                }).getBody();
+                if(result2!=null){
+                    if(result2.getCode()==200){
+                        log.info(String.valueOf(result2.getData()));
+                        model.addAttribute("articles",result2.getData());
+                    }
+                }
+
                 return "/view/index";
             }else{
                 if("密码错误".equals(result.getMessage())){
@@ -85,6 +99,17 @@ public class LoginController {
             if (result.getCode()==200){
                 session.setAttribute("loginUser",result.getData());
                 model.addAttribute("loginUser",result.getData());
+
+
+                //获取初始数据
+                CommonResult<List<Article>> result2 = restTemplate.exchange(BLOG_SERVER_URL + "/article/getbyname/Blog", HttpMethod.GET, null, new ParameterizedTypeReference<CommonResult<List<Article>>>() {
+                }).getBody();
+                if(result2!=null){
+                    if(result2.getCode()==200){
+                        log.info(String.valueOf(result2.getData()));
+                        model.addAttribute("articles",result2.getData());
+                    }
+                }
                 return "/view/index";
             }
         }
@@ -139,7 +164,7 @@ public class LoginController {
     }
 
     @GetMapping("/quit")
-    public String quit(HttpServletRequest request){
+    public String quit(HttpServletRequest request,Model model){
         HttpSession session = request.getSession();
         session.removeAttribute("loginUser");
 
@@ -148,9 +173,20 @@ public class LoginController {
         if(result!=null){
             if(result.getCode()==200){
                 //退出成功
-                return "view/index";
+//                return "view/index";
             }
         }
+
+        //获取初始数据
+        CommonResult<List<Article>> result2 = restTemplate.exchange(BLOG_SERVER_URL + "/article/getbyname/Blog", HttpMethod.GET, null, new ParameterizedTypeReference<CommonResult<List<Article>>>() {
+        }).getBody();
+        if(result2!=null){
+            if(result.getCode()==200){
+                log.info(String.valueOf(result2.getData()));
+                model.addAttribute("articles",result2.getData());
+            }
+        }
+
         return "view/index";
 
     }

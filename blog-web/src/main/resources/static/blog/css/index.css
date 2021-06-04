@@ -1,0 +1,52 @@
+.article-content{
+    border-bottom: 1px solid #dee2e6;
+    /*margin-top: 20px;*/
+    padding: 10px;
+}
+.article-title{
+    font-size: 26px;
+    font-weight: bold;
+    margin-left: 30px;
+
+}
+.author-img{
+    width: 26px;
+    height: 26px;
+    border-radius: 13px;
+}
+
+.article-item{
+    display: flex;
+    width:80%;
+    height: 26px;
+    margin-top: 5px;
+
+    /*align-content: center;*/
+    /*!*justify-content: center;*! 水平居中*/
+    /*text-align: center;*/
+    box-sizing:border-box;
+}
+.author-name{
+    font-size: 20px;
+    margin-left: 5px;
+    margin-top: -4px;
+}
+.article-desc{
+    font-size: 16px;
+    color: #797979;
+    margin-left: 20px;
+}
+.eye{
+    color: #797979;
+    margin-top: 3px;
+    /*margin-right: 1px;*/
+}
+.eye-num{
+    color: #0c7cd5;
+    margin-left: 2px;
+
+}
+
+.delete{
+    color: #787878;
+}

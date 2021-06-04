@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xaut.blog.dao.ArticleDao">
+
+    <resultMap id="ArticleMap" type="com.xaut.blog.entity.Article">
+        <id column="article_id" property="articleId"/>
+        <result column="article_name" property="articleName"/>
+        <result column="owner_user_id" property="ownerUserId"/>
+        <result column="page_view" property="pageView"/>
+        <result column="label" property="label"/>
+        <result column="text" property="text"/>
+        <result column="desc" property="desc"/>
+        <result column="state" property="state"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_edit_time" property="lastEditTime"/>
+        <association property="author" column="owner_user_id"
+                     javaType="com.xaut.blog.entity.User">
+            <id column="user_id" property="userId"/>
+            <result column="user_name" property="userName"/>
+            <result column="admin" property="admin"/>
+            <result column="gender" property="gender"/>
+            <result column="integral" property="integral"/>
+        </association>
+        <!--        <association property="shop" column="shop_id"-->
+        <!--                     javaType="com.o2o.entity.Shop">-->
+        <!--            <id column="shop_id" property="shopId" />-->
+        <!--            <result column="owner_id" property="ownerId" />-->
+        <!--            <result column="shop_name" property="shopName" />-->
+        <!--        </association>-->
+        <!--        <collection property="productImgList" column="product_id"-->
+        <!--                    ofType="com.o2o.entity.ProductImg">-->
+        <!--            <id column="product_img_id" property="productImgId" />-->
+        <!--            <result column="detail_img" property="imgAddr" />-->
+        <!--            <result column="img_desc" property="imgDesc" />-->
+        <!--            <result column="priority" property="priority" />-->
+        <!--            <result column="create_time" property="createTime" />-->
+        <!--            <result column="product_id" property="productId" />-->
+        <!--        </collection>-->
+    </resultMap>
+
+
+    <!--int insert(Article article);-->
+    <insert id="insert" parameterType="com.xaut.blog.entity.Article" useGeneratedKeys="true" keyColumn="article_id">
+        INSERT INTO blog_article(article_name, owner_user_id, page_view, label, text, state, create_time,
+        last_edit_time)
+        VALUES (#{articleName}, #{ownerUserId}, #{pageView}, #{label}, #{text}, #{state}, #{createTime},
+        #{lastEditTime})
+    </insert>
+
+    <!--int update(Article article);-->
+    <update id="update" parameterType="com.xaut.blog.entity.Article">
+        UPDATE blog_article
+        <set>
+            <if test="articleName != null">article_name = #{articleName},</if>
+            <if test="ownerUserId != null">owner_user_id = #{ownerUserId},</if>
+            <if test="pageView != null">page_view = #{pageView},</if>
+            <if test="label != null">label = #{label},</if>
+            <if test="text != null">text = #{text},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="lastEditTime != null">last_edit_time = #{lastEditTime}</if>
+        </set>
+        WHERE
+        article_id = #{articleId}
+    </update>
+
+    <!--int delete(Long articleId);-->
+    <delete id="delete" parameterType="long">
+        DELETE
+        FROM blog_article
+        WHERE article_id = #{articleId}
+    </delete>
+
+
+    <!--Article getById(Long articleId);-->
+    <select id="getById" parameterType="long" resultType="com.xaut.blog.entity.Article">
+        SELECT *
+        FROM blog_article
+        WHERE article_id = #{articleId}
+    </select>
+
+    <!--List<Article> getByName(String articleName);-->
+    <select id="getByName" parameterType="string" resultMap="ArticleMap">
+        SELECT *
+        FROM blog_article
+        LEFT JOIN blog_user bu on bu.user_id = blog_article.owner_user_id
+        WHERE article_name like '%${articleName}%'
+    </select>
+
+    <!-- List<Article> getByOwnerUserId(Long ownerUserId); -->
+    <select id="getByOwnerUserId" resultType="com.xaut.blog.entity.Article" parameterType="long">
+        SELECT *
+        FROM blog_article
+        WHERE owner_user_id = #{ownerUserId}
+    </select>
+    <!-- List<Article> getByOwnerAdmin(String admin); -->
+    <select id="getByUserAdmin" resultType="com.xaut.blog.entity.Article" parameterType="string">
+        SELECT *
+        FROM blog_article
+        WHERE owner_user_id = (SELECT user_id FROM blog_user WHERE admin = #{admin})
+    </select>
+
+
+    <!--List<Article> getByLabel(List<String> articleIdList);-->
+    <select id="getByLabel" parameterType="java.util.List" resultType="com.xaut.blog.entity.Article">
+        SELECT * FROM blog_article
+        WHERE 1 = 1
+        <if test="articleIdList != null">
+            <foreach collection="articleIdList" item="key" open="AND (" close=")" separator="or">
+                label like '%${key}%'
+            </foreach>
+
+        </if>
+
+    </select>
+
+    <!--int userCount(Long userId)-->
+    <select id="userCount" resultType="integer" parameterType="long">
+        SELECT COUNT(article_id)
+        FROM blog_article
+        WHERE owner_user_id = #{userId}
+    </select>
+
+
+    <!--int pageViewCount(Long userId);-->
+    <select id="pageViewCount" parameterType="long" resultType="integer">
+        SELECT SUM(page_view)
+        FROM blog_article
+        WHERE owner_user_id = #{userId}
+    </select>
+
+</mapper>

@@ -3,7 +3,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extra/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>编辑文章</title>
     <link rel="stylesheet" href="/static/editormd/css/editormd.css"/>
     <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <script src="/static/editormd/editormd.min.js"></script>
@@ -39,7 +39,7 @@
                             </li>
                             <li class="nav-item ml-3 " style="width:500px;">
                                 <input class="form-control mr-sm-2" type="text" name="articleName" id="articleName"
-                                       aria-label="Search"/>
+                                       th:placeholder="${article!=null? article.articleName:''}" />
                             </li>
                             <li class="nav-item ml-3 btn-group-vertical">
                                 <a class="nav-link" th:href="@{/save}">
@@ -91,7 +91,7 @@
         <!-- 内容 -->
         <div class="main">
             <div id="test-editormd" style="z-index: 1!important;">
-                <textarea placeholder="博客内容" id="text" name="text" style="display: none;"></textarea>
+                <textarea placeholder="博客内容" id="text" name="text" th:text="${article!=null ? article.text:''}" style="display: none;"></textarea>
             </div>
         </div>
 

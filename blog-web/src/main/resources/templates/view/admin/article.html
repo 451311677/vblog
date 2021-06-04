@@ -39,24 +39,30 @@
                         <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2496571732,442429806&fm=26&gp=0.jpg"
                              class="author-img"/>
                         <div class="author-name column">
-                            <span th:text="${author.userName}" style="font-size: 16px;"></span>
-                            <time th:datetime="${#dates.format(author.createTime,'yyyy-MM-dd')}"
+                            <span th:text="${article.author.userName}" style="font-size: 16px;"></span>
+                            <time th:datetime="${#dates.format(article.author.createTime,'yyyy-MM-dd')}"
                                   itemprop="datePublished"
-                                  th:text="'注册于:&nbsp;'+${#dates.format(author.createTime,'yyyy-MM-dd')}"
+                                  th:text="'注册于:&nbsp;'+${#dates.format(article.author.createTime,'yyyy-MM-dd')}"
                                   style="color: #868686;margin-top:5px;"></time>
                         </div>
 
                     </div>
                     <br/>
                     <div class="row author-item">
-                        <div class="column author-info"><span>20</span><span>原创</span></div>
-                        <div class="column author-info" style="margin-left: 11%;"><span>20</span><span>访问</span></div>
-                        <div class="column author-info" style="margin-left: 11%;"><span>20</span><span>积分</span></div>
+                        <div class="column author-info"><span
+                                th:text="${article.author.blogNumber}"></span><span>原创</span></div>
+                        <div class="column author-info" style="margin-left: 11%;"><span
+                                th:text="${article.author.view}"></span><span>访问</span></div>
+                        <div class="column author-info" style="margin-left: 11%;"><span
+                                th:text="${article.author.integral}"></span><span>积分</span></div>
                     </div>
                     <div class="row author-item">
-                        <div class="column author-info"><span>20</span><span>关注</span></div>
-                        <div class="column author-info" style="margin-left: 11%;"><span>20</span><span>粉丝</span></div>
-                        <div class="column author-info" style="margin-left: 11%;"><span>20</span><span>收藏</span></div>
+                        <div class="column author-info"><span th:text="${article.author.care}"></span><span>关注</span>
+                        </div>
+                        <div class="column author-info" style="margin-left: 11%;"><span
+                                th:text="${article.author.fans}"></span><span>粉丝</span></div>
+                        <div class="column author-info" style="margin-left: 11%;"><span
+                                th:text="${article.author.collectionNumber}"></span><span>收藏</span></div>
                     </div>
                 </div>
             </div>
@@ -68,18 +74,24 @@
                     </div>
                     <div class="post-header">
                         <div class="post-data">
-                            <span class="post-author" th:text="${author.userName}"></span>
+                            <span class="post-author" th:text="${article.author.userName}"></span>
                             <time th:datetime="${#dates.format(article.createTime,'yyyy-MM-dd HH:mm:ss')}"
                                   itemprop="datePublished" class="post-space"
                                   th:text="${#dates.format(article.createTime,'yyyy-MM-dd HH:mm:ss')}"
                                   style="color: #868686;"></time>
                             <i class="fa fa-eye fa-lg post-style post-space"></i> <span
                                 th:text="'&nbsp;'+${article.pageView}" class="post-style"></span>
-                            <i class="fa fa-star-half-full fa-lg post-style post-space"></i><span id="collection"
-                                                                                                  class="post-style">&nbsp;收藏</span>
-                            <i class="fa fa-pencil-square fa-lg post-style post-space" style="color: #0c7cd5;"></i><span
-                                id="edit" class="post-style" style="color: #0c7cd5;">&nbsp;编辑</span>
+                            <i class="fa fa-star-half-full fa-lg post-style post-space"></i><span id="collectiontext"
+                                                                                                  class="post-style"
+                                                                                                  th:text="${isCollection==true? '已收藏 '+article.collectionNumber:'收藏'}"></span>
+                            <i th:if=" ${loginUser!=null && loginUser.userId== article.author.userId}" class="fa
+                            fa-pencil-square fa-lg post-style post-space" style="color: #0c7cd5;"></i><a
+                                th:href="@{'/article/edit/'+${article.articleId}}"><span
+                                id="edit" class="post-style"
+                                th:if="${loginUser!=null && loginUser.userId== article.author.userId}"
+                                style="color: #0c7cd5;">&nbsp;编辑</span></a>
                         </div>
+
                         <div class="post-data">
                             <i class="fa fa-tag fa-lg post-style"></i> <span class="post-style">文章标签:&nbsp;</span>
                             <span th:each="label : ${article.labelList}" th:text="'&nbsp;'+${label}+'&nbsp;'"
@@ -89,6 +101,32 @@
                     <div id="test-editormd-view2">
                         <textarea id="append-test" style="display:none;" th:text="${article.text}">
                         </textarea>
+                    </div>
+
+
+                </div>
+                <div class="article-op">
+                    <a href="javascript:;" id="like" class="op-a like"><i class="fa fa-thumbs-o-up fa-lg"></i><span
+                            id="liketext" th:text="${isLike==true? '已点赞 '+article.likeNumber:'点赞'}"> </span></a>
+                    <a href="javascript:;" id="collection2" class="op-a"><i
+                            class="fa fa-star-half-empty fa-lg"></i><span id="collectiontext2"
+                                                                          th:text="${isCollection==true? '已收藏 '+article.collectionNumber:'收藏'}"></span></a>
+                    <a href="javascript:;" id="care" class="op-a"><i class="fa fa-heart-o fa-lg"></i> 关注</a>
+                </div>
+                <div class="container pl-5 pr-5 pt-3 pb-3 mt-3 mb-3" style="width:100%;margin-top: -20px;">
+                    <div style="display: flex; flex-direction: row;">
+                        <form method="post" th:action="@{/article/comment}"
+                              style="width: 100%;display: flex; flex-direction: row;">
+                        <textarea class="comment-content" name="comment_content" id="comment_content"
+                                  placeholder="优质评论可以帮助作者获得更高权重" maxlength="1000"></textarea>
+                            <input type="hidden" name="articleId" th:value="${article.articleId}">
+                            <input type="submit" class="pub-comment" value="评论"/>
+                        </form>
+                    </div>
+                    <div class="row comment-item" th:each="comment: ${comments}">
+                        <label class="comment-name" th:text="${comment.userName+':'}"></label>
+                        <label class="comment-text" th:text="${comment.text}"></label>
+                        <hr>
                     </div>
                 </div>
             </div>
@@ -111,6 +149,7 @@
 <script th:src="@{/static/blog/js/popper.min.js}"></script>
 <script th:src="@{/static/blog/js/bootstrap.min.js}"></script>
 <script th:src="@{/static/blog/js/global.js}"></script>
+<script th:src="@{/static/blog/js/article.js}"></script>
 
 <!--<script src="js/jquery.min.js"></script>-->
 <script th:src="@{/static/editormd/lib/marked.min.js}"></script>

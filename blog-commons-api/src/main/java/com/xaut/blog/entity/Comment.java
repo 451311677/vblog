@@ -16,6 +16,7 @@ public class Comment {
     private Long commentId;
     private Long ownerUserId;
     private Long ownerArticleId;
+    private String userName;
     private String text;
 
 }

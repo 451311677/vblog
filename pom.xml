@@ -10,11 +10,16 @@
 
     <modules>
         <module>blog-commons-api</module>
-        <module>blog-server</module>
         <module>blog-web</module>
         <module>blog-openapi</module>
         <module>blog-eureka-7001</module>
         <module>blog-config</module>
+        <module>blog-server-8080</module>
+        <module>blog-server-8081</module>
+        <module>blog-server-8082</module>
+        <module>blog-server-8081</module>
+        <module>blog-server-8081</module>
+        <module>blog-server-8082</module>
     </modules>
 
     <packaging>pom</packaging>

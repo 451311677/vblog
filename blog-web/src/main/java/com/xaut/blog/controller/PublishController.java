@@ -48,14 +48,28 @@ public class PublishController {
             return "view/admin/login";
         }
 
-        article.setOwnerUserId(loginUser.getUserId());
-        //发布
-        article.setState(1);
-        session.setAttribute("article", article);
+        String articleOP = (String) session.getAttribute("articleOP");
+        Article onlineArticle;
+        if("update".equals(articleOP)){
+            onlineArticle = (Article) session.getAttribute("article");
+            log.info("# "+ onlineArticle);
+            if(article.getArticleName()!=null&& !"".equals(article.getArticleName())){
+                onlineArticle.setArticleName(article.getArticleName());
+            }
+            onlineArticle.setText(article.getText());
+            session.setAttribute("article",onlineArticle);
+            model.addAttribute("articleName", onlineArticle.getArticleName());
 
-        System.out.println(article);
+        }else{
+            article.setOwnerUserId(loginUser.getUserId());
+            //发布
+            article.setState(1);
+            session.setAttribute("article", article);
 
-        model.addAttribute("articleName", article.getArticleName());
+            System.out.println(article);
+            model.addAttribute("articleName", article.getArticleName());
+
+        }
         model.addAttribute("loginUser", loginUser);
 
         //获取初始标签
@@ -82,10 +96,21 @@ public class PublishController {
         //设置标签
         article.setLabel(label);
 
-        RequestEntity<String> requestEntity = httpUtils.getRequestEntity(BLOG_SERVER_URL + "/article/insert", article);
+        String articleOP = (String) session.getAttribute("articleOP");
+        RequestEntity<String> requestEntity;
+        if("update".equals(articleOP)){
+            //更新
+            requestEntity = httpUtils.getRequestEntity(BLOG_SERVER_URL + "/article/update", article);
+        }else{
+            //发布插入
+            requestEntity = httpUtils.getRequestEntity(BLOG_SERVER_URL + "/article/insert", article);
+        }
+
 
         CommonResult<String> result = restTemplate.exchange(requestEntity, new ParameterizedTypeReference<CommonResult<String>>() {
         }).getBody();
+
+        session.removeAttribute("articleOP");
 
         if(result!=null){
             if(result.getCode()==200){

@@ -84,6 +84,8 @@ public class SkipController {
         return "view/admin/login";
     }
 
+
+
     @GetMapping("/lizi")
     public String test(){
         return "view/index2";

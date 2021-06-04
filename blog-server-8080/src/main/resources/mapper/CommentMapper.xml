@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xaut.blog.dao.CommentDao">
+
+    <!--int insert(Comment comment);-->
+    <insert id="insert" parameterType="com.xaut.blog.entity.Comment" useGeneratedKeys="true" keyProperty="commentId"
+            keyColumn="comment_id">
+        INSERT INTO blog_comment(owner_user_id, owner_article_id, text)
+        VALUES (#{ownerUserId}, #{ownerArticleId}, #{text})
+    </insert>
+
+
+    <!--int delete(Long commentId);-->
+    <delete id="delete" parameterType="long">
+        DELETE
+        FROM blog_comment
+        WHERE comment_id = #{commentId}
+    </delete>
+
+    <!--List<Comment> getCommentList(Long ownerArticleId);-->
+    <select id="getCommentList" parameterType="long" resultType="com.xaut.blog.entity.Comment">
+        SELECT *
+        FROM blog_comment left join blog_user bu on blog_comment.owner_user_id = bu.user_id
+        WHERE owner_article_id = #{ownerArticleId}
+    </select>
+
+    <!-- int count(Long ownerArticleId); -->
+    <select id="count" resultType="integer" parameterType="long">
+        SELECT count(comment_id)
+        FROM blog_comment
+        WHERE owner_article_id = #{ownerArticleId}
+    </select>
+
+
+</mapper>
